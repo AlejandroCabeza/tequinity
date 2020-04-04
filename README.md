@@ -8,3 +8,6 @@ The files are stored plainly on a server folder defined in the settings file.
 
 #### Settings
 Change any desired settings in the file `settings.json` located in the repository directory. Those values are loaded to `src/framework/settings.py` when the server is launched.
+
+#### Requirements
+To install the requirements use ```pip -r requirements/*environment*.txt``` where *environment* is the desired file located in the requirements directory in the repository root. 
