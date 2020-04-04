@@ -1,0 +1,21 @@
+{
+  "SERVER": {
+    "HOST": "127.0.0.1",
+    "PORT": 8080
+  },
+  "FILES": {
+    "TAGS": {
+      "PYTHON": "python",
+      "JAVASCRIPT": "javascript",
+      "PLAIN-TEXT": "plain-text",
+      "IMAGE": "image"
+    },
+    "DATABASE": {
+      "ROOT_DIRECTORY": "../DB/"
+    },
+    "MAX_SIZE_BYTES": 5242880
+  },
+  "CODE_EXECUTION": {
+    "RUN_DETACHED_DEFAULT": false
+  }
+}
