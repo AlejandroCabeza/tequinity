@@ -1,7 +1,7 @@
 # File server
 
 Asynchronous file server that allows basic CRUD operations over files as well as execution in an isolated docker environment.
-The files are stored plainly on a server folder defined in the settings file.
+The files are stored plainly in a server folder defined in the settings file.
 
 #### Run
 ```python path/to/src/framework/wsgi.py```
