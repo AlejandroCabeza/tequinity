@@ -39,46 +39,43 @@ async def upload_files(request: Request) -> StreamResponse:
 class FilesView(View):
 
     @inject_path_parameter_from_url_path
-    async def get(self, path: str) -> StreamResponse:
+    async def get(self, db_file_path: Path) -> StreamResponse:
         """
         Retrieve a file from the server.
-        :param path: Filename relative to the file DB root.
+        :param db_file_path: Filename relative to the file DB root.
         :return: Http Response with the appropriate status code
         """
-        absolute_file_path: Path = get_absolute_file_path_to_db(path)
-        if absolute_file_path.is_file():
-            return FileResponse(absolute_file_path)
+        if db_file_path.is_file():
+            return FileResponse(db_file_path)
         else:
             return HTTPNotFound()
 
     @inject_path_parameter_from_url_path
-    async def delete(self, path: str) -> StreamResponse:
+    async def delete(self, db_file_path: Path) -> StreamResponse:
         """
         Delete a file from the server.
-        :param path: Filename relative to the file DB root.
+        :param db_file_path: Filename relative to the file DB root.
         :return: Http Response with the appropriate status code
         """
-        absolute_file_path: Path = get_absolute_file_path_to_db(path)
         try:
-            absolute_file_path.unlink()
+            db_file_path.unlink()
             return HTTPNoContent()
         except FileNotFoundError:
             return HTTPNotFound()
 
     @inject_path_parameter_from_url_path
     @inject_run_detached_parameter_from_query_string
-    async def post(self, path: str, run_detached: bool) -> StreamResponse:
+    async def post(self, db_file_path: Path, run_detached: bool) -> StreamResponse:
         """
         Execute a file in the server with a CodeRunner
         Even though POST is usually used to create an element in a category, for this use case I thought it was cleaner
         to use it for execution alone.
-        :param path: Filename relative to the file DB root.
+        :param db_file_path: Filename relative to the file DB root.
         :param run_detached: Execute the script asynchronously or not.
         :return: Http Response with the appropriate status code
         """
-        absolute_file_path = get_absolute_file_path_to_db(path)
         try:
-            serializer: JsonSerializer = await execute_file(absolute_file_path, run_detached)
+            serializer: JsonSerializer = await execute_file(db_file_path, run_detached)
             return json_response(serializer.to_dict(), status=200)
         except FileNotFoundError:
             return HTTPNotFound()
