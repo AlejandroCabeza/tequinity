@@ -7,7 +7,7 @@ from aiohttp import MultipartReader, BodyPartReader
 from src.files.file_verification import verify_file_pre_write, verify_file_post_write
 from src.code_runners.factory import build_code_runner
 from src.files.file_utils import get_absolute_file_path_to_db
-from src.api.rest.v1_0.serializers import CreateOrUpdateFilesJsonSerializer, JsonSerializer, ExecuteFileJsonSerializer
+from src.infrastructure.serializers import CreateOrUpdateFilesJsonSerializer, JsonSerializer
 
 
 async def parse_files_from_multipart(multipart_reader: MultipartReader) -> JsonSerializer:
@@ -35,5 +35,4 @@ async def create_or_update_file_in_db_from_body_part_reader(body_part_reader: Bo
 async def execute_file(path: Path, run_detached: bool) -> JsonSerializer:
     if not path.is_file():
         raise FileNotFoundError
-    return_code: int = build_code_runner(path).run(run_detached)
-    return ExecuteFileJsonSerializer(return_code)
+    return await build_code_runner(path).run(run_detached)

@@ -15,7 +15,7 @@ from src.files.file_operations import (
     parse_files_from_multipart
 )
 from src.code_runners.exceptions import CodeRunnerNotAvailable
-from src.api.rest.v1_0.serializers import JsonSerializer
+from src.infrastructure.serializers import JsonSerializer
 from src.api.decorators import (
     inject_path_parameter_from_url_path,
     inject_run_detached_parameter_from_query_string
@@ -46,7 +46,6 @@ class FilesView(View):
         :return: Http Response with the appropriate status code
         """
         absolute_file_path: Path = get_absolute_file_path_to_db(path)
-        print(absolute_file_path)
         if absolute_file_path.is_file():
             return FileResponse(absolute_file_path)
         else:
