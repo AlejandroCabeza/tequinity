@@ -10,17 +10,6 @@ class JsonSerializer:
         raise NotImplementedError
 
 
-class ExecuteFileJsonSerializer(JsonSerializer):
-
-    def __init__(self, return_code: int = -1):
-        self.return_code: int = return_code
-
-    def to_dict(self) -> dict:
-        return {
-            "return_code": self.return_code,
-        }
-
-
 class CreateOrUpdateFilesJsonSerializer(JsonSerializer):
 
     def __init__(self):
@@ -42,4 +31,29 @@ class CreateOrUpdateFilesJsonSerializer(JsonSerializer):
             "created_files": self._created_files,
             "updated_files": self._updated_files,
             "error_files": self._error_files,
+        }
+
+
+class ProcessOutputJsonSerializer(JsonSerializer):
+
+    DEFAULT_STD_DECODE_FORMAT: str = "utf-8"
+
+    def __init__(self, return_code: int, stdout: bytes, stderr: bytes):
+        self.return_code: int = return_code
+        self._stdout: bytes = stdout
+        self._stderr: bytes = stderr
+
+    @property
+    def stdout(self):
+        return self._stdout.decode(self.DEFAULT_STD_DECODE_FORMAT)
+
+    @property
+    def stderr(self):
+        return self._stderr.decode(self.DEFAULT_STD_DECODE_FORMAT)
+
+    def to_dict(self) -> dict:
+        return {
+            "return_code": self.return_code,
+            "stdout": self.stdout,
+            "stderr": self.stderr
         }
