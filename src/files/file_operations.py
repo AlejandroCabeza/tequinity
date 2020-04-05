@@ -17,6 +17,7 @@ async def parse_files_from_multipart(multipart_reader: MultipartReader) -> JsonS
             _file_name, _file_was_updated = await create_or_update_file_in_db_from_body_part_reader(file)
             if await verify_file_post_write(_file_name):
                 create_or_update_serializer.add_result(_file_name, _file_was_updated)
+                continue
 
         create_or_update_serializer.add_error(file.name)
     return create_or_update_serializer
