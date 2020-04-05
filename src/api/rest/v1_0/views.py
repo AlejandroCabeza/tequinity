@@ -10,7 +10,6 @@ from aiohttp.web_fileresponse import FileResponse
 from aiohttp.web_exceptions import HTTPNotFound, HTTPNoContent, HTTPBadRequest, HTTPUnsupportedMediaType
 # Project Imports
 from src.files.file_operations import (
-    get_absolute_file_path_to_db,
     execute_file,
     parse_files_from_multipart
 )
